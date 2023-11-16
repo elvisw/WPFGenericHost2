@@ -7,12 +7,7 @@
     <UseWPF>true</UseWPF>
 	<EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="ApplicationResources.xaml" />
-    <None Remove="Views\Window1.xaml" />
-  </ItemGroup>
-
+	
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Wpf.Extensions.Hosting" Version="1.1.2" />
