@@ -1,0 +1,29 @@
+﻿<Window x:Class="WPFGenericHost2.Views.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFGenericHost2.Views"
+        mc:Ignorable="d"
+        Title="Window1" Height="250" Width="600"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Window1}">
+    
+    <Window.Resources>
+        <ResourceDictionary Source="/ApplicationResources.xaml" />
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="14" Text="{Binding HelloText}"  Margin="5,5,5,5"/>
+        <Button Grid.Column="1" Margin="5,5,5,5" Command="{Binding AddItemCommand}">Add Item</Button>
+        <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding List1}"></ListBox>
+        <TextBlock FontSize="14" Grid.Row="2" Margin="5,5,5,5" Text="{Binding Message}" Grid.ColumnSpan="2" />
+    </Grid>
+</Window>
