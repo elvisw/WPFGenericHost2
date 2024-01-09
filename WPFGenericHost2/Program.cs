@@ -1,4 +1,5 @@
 ﻿// Create a builder by specifying the application and main window.
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic;
 using System.IO;
@@ -21,10 +22,19 @@ builder.Services.AddSingleton<ITextService, TextService>();
 builder.Services.AddSingleton<MainViewModel>();
 builder.Services.AddTransient<Window1>();
 builder.Services.AddTransient<Window1ViewModel>();
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("ContextSQLite")));
 
 builder.Logging.AddDebug();
 
 var app = builder.Build();
 ServiceLocator.Services = app.Services;
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.EnsureCreated();
+}
 
 await app.RunAsync();

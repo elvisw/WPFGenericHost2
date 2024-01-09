@@ -25,7 +25,7 @@
         <TextBlock FontSize="14" Text="{Binding HelloText}"  Margin="5,5,5,5"/>
         <Button Grid.Column="1" Command="{Binding RemoveItemCommand}">Delete Item</Button>
         <Button Grid.Column="2"  Command="{Binding AddItemCommand}">Add Item</Button>
-        <ListBox Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding ListTitles}" SelectedItem="{Binding SelectedTitle}"></ListBox>
+        <DataGrid Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding ListTitles}" SelectedItem="{Binding SelectedTitle}"></DataGrid>
         <TextBlock FontSize="14" Grid.Row="2" Margin="5,5,5,5" Text="{Binding Message}" Grid.ColumnSpan="2" />
     </Grid>
 </Window>

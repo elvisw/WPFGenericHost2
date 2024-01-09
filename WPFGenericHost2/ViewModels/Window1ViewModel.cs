@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ namespace WPFGenericHost2.ViewModels
 {
     public partial class Window1ViewModel : ObservableObject, IRecipient<StringMessage>
     {
+        private readonly ApplicationDbContext _context;
         private readonly ITextService _textService;
         string[] _titles = { "Excellent", "Good", "Super", "REALLY GOOD DOCTOR!", "THANK YOU!", "THE BEST", "EXCELLENT PHYSICIAN", "EXCELLENT DOCTOR" };
 
@@ -21,10 +23,10 @@ namespace WPFGenericHost2.ViewModels
         [ObservableProperty]
         private string? _helloText;
 
-        public ObservableCollection<string> ListTitles { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<Title> ListTitles { get; set; } = new();
 
         [ObservableProperty]
-        private string _selectedTitle;
+        private Title? _selectedTitle;
 
         [ObservableProperty]
         private string? _message;
@@ -34,23 +36,33 @@ namespace WPFGenericHost2.ViewModels
         /// 用于依赖注入的构造函数
         /// </summary>
         /// <param name="textService">用于依赖注入</param>
-        public Window1ViewModel(ITextService textService)
+        public Window1ViewModel(ITextService textService, ApplicationDbContext context)
         {
             _textService = textService;
             HelloText = _textService.GetText();
             WeakReferenceMessenger.Default.RegisterAll(this);
+            _context = context;
+            _context.Titles.Load();
+            ListTitles = _context.Titles.Local.ToObservableCollection();
         }
 
         [RelayCommand]
-        private void AddItem()
+        private async Task AddItemAsync()
         {
-            ListTitles.Add(_titles[new Random().Next(0, _titles.Length)]);
+            var titleString = _titles[new Random().Next(0, _titles.Length)];
+            var title = new Title { TitleString = titleString };
+            await _context.AddAsync(title);
+            await _context.SaveChangesAsync();
         }
 
         [RelayCommand]
-        private void RemoveItem() 
+        private async Task RemoveItemAsync()
         {
-            ListTitles.Remove(SelectedTitle);
+            if (SelectedTitle is not null)
+            {
+                ListTitles.Remove(SelectedTitle);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public void Receive(StringMessage message)
