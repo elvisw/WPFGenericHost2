@@ -21,7 +21,10 @@ namespace WPFGenericHost2.ViewModels
         [ObservableProperty]
         private string? _helloText;
 
-        public ObservableCollection<string> List1 { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> ListTitles { get; set; } = new ObservableCollection<string>();
+
+        [ObservableProperty]
+        private string _selectedTitle;
 
         [ObservableProperty]
         private string? _message;
@@ -41,7 +44,13 @@ namespace WPFGenericHost2.ViewModels
         [RelayCommand]
         private void AddItem()
         {
-            List1.Add(_titles[new Random().Next(0, _titles.Length)]);
+            ListTitles.Add(_titles[new Random().Next(0, _titles.Length)]);
+        }
+
+        [RelayCommand]
+        private void RemoveItem() 
+        {
+            ListTitles.Remove(SelectedTitle);
         }
 
         public void Receive(StringMessage message)
