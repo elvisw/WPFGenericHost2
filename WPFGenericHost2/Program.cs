@@ -4,10 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualBasic;
 using System.IO;
 using System.Runtime;
+using Velopack;
 using WPFGenericHost2;
 using WPFGenericHost2.Services;
 using WPFGenericHost2.ViewModels;
 using WPFGenericHost2.Views;
+
+VelopackApp.Build().Run();
 
 var builder = WpfApplication<App, MainWindow>.CreateBuilder(args);
 
