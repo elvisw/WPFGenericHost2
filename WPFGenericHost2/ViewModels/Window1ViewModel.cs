@@ -49,7 +49,7 @@ namespace WPFGenericHost2.ViewModels
         [RelayCommand]
         private async Task AddItemAsync()
         {
-            var titleString = _titles[new Random().Next(0, _titles.Length)];
+            var titleString = _titles[Random.Shared.Next(0, _titles.Length)];
             var title = new Title { TitleString = titleString };
             await _context.AddAsync(title);
             await _context.SaveChangesAsync();
